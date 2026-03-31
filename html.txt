@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Portal do Curso - Baralho Cigano</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+
+body{
+  font-family:'Georgia',serif;
+  background:#000;
+  color:#fadb5d;
+  height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+}
+
+/* FUNDO MÍSTICO */
+body::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:
+    radial-gradient(circle at 20% 30%, rgba(255,215,0,0.15), transparent),
+    radial-gradient(circle at 80% 70%, rgba(138,43,226,0.2), transparent);
+  animation: glow 6s infinite alternate;
+}
+
+@keyframes glow{
+  from{opacity:.6}
+  to{opacity:1}
+}
+
+.container{
+  width:90%;
+  max-width:420px;
+  text-align:center;
+  z-index:2;
+}
+
+h1{
+  font-size:22px;
+  margin-bottom:30px;
+  line-height:1.5;
+}
+
+/* INPUTS */
+input{
+  width:100%;
+  padding:14px;
+  margin:10px 0;
+  border:none;
+  border-radius:30px;
+  background:#111;
+  color:#fadb5d;
+  border:1px solid rgba(250,219,93,0.4);
+  text-align:center;
+}
+
+/* BOTÃO */
+button{
+  margin-top:20px;
+  padding:14px 28px;
+  border:none;
+  border-radius:40px;
+  background:linear-gradient(45deg,#d4af37,#fadb5d,#d4af37);
+  color:#000;
+  font-weight:bold;
+  cursor:pointer;
+  transition:.3s;
+}
+
+button:hover{
+  transform:scale(1.05);
+  box-shadow:0 0 20px rgba(250,219,93,0.6);
+}
+
+/* PORTAL */
+.portal{
+  position:fixed;
+  inset:0;
+  background:radial-gradient(circle,#d4af37 0%, #000 70%);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:10;
+  animation: fecharPortal 2s forwards;
+}
+
+@keyframes fecharPortal{
+  0%{transform:scale(2);opacity:1}
+  100%{transform:scale(0);opacity:0}
+}
+
+/* MENSAGEM FINAL */
+.mensagem{
+  display:none;
+  text-align:center;
+  padding:20px;
+}
+
+.mensagem h2{
+  font-size:24px;
+  margin-bottom:20px;
+}
+
+.mensagem p{
+  font-size:16px;
+  line-height:1.6;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container" id="formBox">
+  <h1>
+    JÁ SOU DO CLUBE DO TARÔ - OURO - DIAMANTE OU ANUAL<br>
+    QUERO ENTRAR NO CURSO BARALHO CIGANO
+  </h1>
+
+  <input type="text" id="nome" placeholder="Nome completo" required>
+  <input type="email" id="email" placeholder="Seu melhor email" required>
+
+  <button onclick="entrar()">ACESSAR PORTAL ✦</button>
+</div>
+
+<div class="portal" id="portal"></div>
+
+<div class="mensagem" id="mensagem">
+  <h2>BEM VINDO AO CURSO DE BARALHO CIGANO!</h2>
+  <p>
+    Parabéns! Você em poucos minutos receberá no seu email o acesso<br>
+    A SUA NOVA JORNADA NAS CARTAS CIGANAS.
+  </p>
+</div>
+
+<script>
+function entrar(){
+  const nome = document.getElementById('nome').value;
+  const email = document.getElementById('email').value;
+
+  if(!nome || !email){
+    alert("Preencha todos os campos.");
+    return;
+  }
+
+  const portal = document.getElementById('portal');
+  const form = document.getElementById('formBox');
+  const mensagem = document.getElementById('mensagem');
+
+  portal.style.display = "flex";
+
+  setTimeout(()=>{
+    portal.style.display = "none";
+    form.style.display = "none";
+    mensagem.style.display = "block";
+  },2000);
+}
+</script>
+
+</body>
+</html>
