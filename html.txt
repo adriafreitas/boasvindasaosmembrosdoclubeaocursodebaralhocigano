@@ -1,165 +1,160 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Portal do Curso - Baralho Cigano</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Portal do Baralho Cigano</title>
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-
-body{
-  font-family:'Georgia',serif;
-  background:#000;
-  color:#fadb5d;
-  height:100vh;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  overflow:hidden;
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: black;
+  color: gold;
+  text-align: center;
+  overflow-x: hidden;
 }
 
-/* FUNDO MÍSTICO */
-body::before{
-  content:'';
-  position:absolute;
-  inset:0;
-  background:
-    radial-gradient(circle at 20% 30%, rgba(255,215,0,0.15), transparent),
-    radial-gradient(circle at 80% 70%, rgba(138,43,226,0.2), transparent);
-  animation: glow 6s infinite alternate;
+.container {
+  padding: 40px 20px;
 }
 
-@keyframes glow{
-  from{opacity:.6}
-  to{opacity:1}
+h1 {
+  font-size: 26px;
+  margin-bottom: 10px;
 }
 
-.container{
-  width:90%;
-  max-width:420px;
-  text-align:center;
-  z-index:2;
+p {
+  color: #ddd;
 }
 
-h1{
-  font-size:22px;
-  margin-bottom:30px;
-  line-height:1.5;
+input {
+  width: 80%;
+  max-width: 300px;
+  padding: 12px;
+  margin: 10px;
+  border-radius: 25px;
+  border: none;
+  outline: none;
+  text-align: center;
 }
 
-/* INPUTS */
-input{
-  width:100%;
-  padding:14px;
-  margin:10px 0;
-  border:none;
-  border-radius:30px;
-  background:#111;
-  color:#fadb5d;
-  border:1px solid rgba(250,219,93,0.4);
-  text-align:center;
+button {
+  padding: 14px 25px;
+  border-radius: 30px;
+  border: none;
+  cursor: pointer;
+  margin: 10px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  transition: 0.3s;
 }
 
-/* BOTÃO */
-button{
-  margin-top:20px;
-  padding:14px 28px;
-  border:none;
-  border-radius:40px;
-  background:linear-gradient(45deg,#d4af37,#fadb5d,#d4af37);
-  color:#000;
-  font-weight:bold;
-  cursor:pointer;
-  transition:.3s;
+.botao-ouro {
+  background: linear-gradient(145deg, #c9a646, #ffd700);
+  color: black;
+  box-shadow: 0 0 15px rgba(255,215,0,0.6);
 }
 
-button:hover{
-  transform:scale(1.05);
-  box-shadow:0 0 20px rgba(250,219,93,0.6);
+.botao-ouro:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 25px rgba(255,215,0,1);
 }
 
-/* PORTAL */
-.portal{
-  position:fixed;
-  inset:0;
-  background:radial-gradient(circle,#d4af37 0%, #000 70%);
-  display:none;
-  align-items:center;
-  justify-content:center;
-  z-index:10;
-  animation: fecharPortal 2s forwards;
+.botao-pagamento {
+  background: #111;
+  color: gold;
+  border: 1px solid gold;
 }
 
-@keyframes fecharPortal{
-  0%{transform:scale(2);opacity:1}
-  100%{transform:scale(0);opacity:0}
+.portal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle, gold 0%, black 70%);
+  opacity: 0;
+  pointer-events: none;
+  transition: 1s;
 }
 
-/* MENSAGEM FINAL */
-.mensagem{
-  display:none;
-  text-align:center;
-  padding:20px;
+.portal.ativo {
+  opacity: 1;
 }
 
-.mensagem h2{
-  font-size:24px;
-  margin-bottom:20px;
-}
-
-.mensagem p{
-  font-size:16px;
-  line-height:1.6;
+.mensagem {
+  display: none;
+  margin-top: 20px;
 }
 </style>
 </head>
 
 <body>
 
-<div class="container" id="formBox">
-  <h1>
-    JÁ SOU DO CLUBE DO TARÔ - OURO - DIAMANTE OU ANUAL<br>
-    QUERO ENTRAR NO CURSO BARALHO CIGANO
-  </h1>
+<audio autoplay loop>
+  <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_c3c9a4c0c7.mp3?filename=ethnic-ambient-110997.mp3" type="audio/mpeg">
+</audio>
 
-  <input type="text" id="nome" placeholder="Nome completo" required>
-  <input type="email" id="email" placeholder="Seu melhor email" required>
+<div class="container">
 
-  <button onclick="entrar()">ACESSAR PORTAL ✦</button>
+<h1>PORTAL DO BARALHO CIGANO</h1>
+
+<p>Acesso exclusivo para membros do Clube do Tarô</p>
+
+<input type="text" id="nome" placeholder="Seu nome completo">
+<br>
+<input type="email" id="email" placeholder="Seu melhor email">
+
+<br>
+
+<button class="botao-ouro" onclick="entrarCurso()">
+SOU OURO / DIAMANTE / ANUAL — ENTRAR
+</button>
+
+<br>
+
+<a href="https://pay.kiwify.com.br/D5bCMEh" target="_blank">
+<button class="botao-pagamento">
+SOU BRONZE / PRATA — LIBERAR ACESSO
+</button>
+</a>
+
+<div class="mensagem" id="mensagem">
+<h2>BEM VINDO AO CURSO DE BARALHO CIGANO!</h2>
+<p>Parabéns! Em poucos minutos você receberá no seu email o acesso à sua nova jornada nas cartas ciganas.</p>
+</div>
+
 </div>
 
 <div class="portal" id="portal"></div>
 
-<div class="mensagem" id="mensagem">
-  <h2>BEM VINDO AO CURSO DE BARALHO CIGANO!</h2>
-  <p>
-    Parabéns! Você em poucos minutos receberá no seu email o acesso<br>
-    A SUA NOVA JORNADA NAS CARTAS CIGANAS.
-  </p>
-</div>
-
 <script>
-function entrar(){
-  const nome = document.getElementById('nome').value;
-  const email = document.getElementById('email').value;
+function entrarCurso(){
 
-  if(!nome || !email){
-    alert("Preencha todos os campos.");
+  let nome = document.getElementById("nome").value;
+  let email = document.getElementById("email").value;
+
+  if(nome === "" || email === ""){
+    alert("Preencha nome e email");
     return;
   }
 
-  const portal = document.getElementById('portal');
-  const form = document.getElementById('formBox');
-  const mensagem = document.getElementById('mensagem');
+  fetch("https://script.google.com/macros/s/AKfycbznKcdNZ6pji8ENBuQm5geoEFziLP5WWv5NeeX2OhNU3hUuKpqCaNfSClfzt8oDjqFp/exec", {
+    method: "POST",
+    body: JSON.stringify({
+      nome: nome,
+      email: email
+    })
+  });
 
-  portal.style.display = "flex";
+  let portal = document.getElementById("portal");
+  portal.classList.add("ativo");
 
   setTimeout(()=>{
-    portal.style.display = "none";
-    form.style.display = "none";
-    mensagem.style.display = "block";
-  },2000);
+    document.getElementById("mensagem").style.display = "block";
+  }, 1500);
 }
 </script>
 
