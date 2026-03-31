@@ -4,126 +4,125 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Portal do Baralho Cigano</title>
+<title>Portal Cigano</title>
 
 <style>
 body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: black;
-  color: gold;
-  text-align: center;
-  overflow-x: hidden;
+  margin:0;
+  overflow:hidden;
+  background:black;
+  color:gold;
+  font-family: Arial;
+  text-align:center;
 }
 
+/* FUNDO ESTRELADO PROFUNDO */
+canvas {
+  position:fixed;
+  top:0;
+  left:0;
+  z-index:0;
+}
+
+/* CONTEÚDO */
 .container {
-  padding: 40px 20px;
+  position:relative;
+  z-index:2;
+  padding:30px;
 }
 
 h1 {
-  font-size: 26px;
-  margin-bottom: 10px;
-}
-
-p {
-  color: #ddd;
+  font-size:30px;
+  text-shadow:0 0 20px gold;
 }
 
 input {
-  width: 80%;
-  max-width: 300px;
-  padding: 12px;
-  margin: 10px;
-  border-radius: 25px;
-  border: none;
-  outline: none;
-  text-align: center;
+  width:90%;
+  max-width:350px;
+  padding:15px;
+  margin:10px;
+  border-radius:25px;
+  border:none;
+  text-align:center;
+  font-size:16px;
 }
 
+/* BOTÕES */
 button {
-  padding: 14px 25px;
-  border-radius: 30px;
-  border: none;
-  cursor: pointer;
-  margin: 10px;
-  font-weight: bold;
-  letter-spacing: 1px;
-  transition: 0.3s;
+  width:90%;
+  max-width:350px;
+  padding:16px;
+  margin:10px;
+  border-radius:30px;
+  font-size:16px;
+  cursor:pointer;
 }
 
 .botao-ouro {
-  background: linear-gradient(145deg, #c9a646, #ffd700);
-  color: black;
-  box-shadow: 0 0 15px rgba(255,215,0,0.6);
-}
-
-.botao-ouro:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 25px rgba(255,215,0,1);
+  background:linear-gradient(145deg,#ffd700,#c9a646);
+  box-shadow:0 0 25px gold;
+  font-weight:bold;
 }
 
 .botao-pagamento {
-  background: #111;
-  color: gold;
-  border: 1px solid gold;
+  background:transparent;
+  border:1px solid gold;
+  color:gold;
 }
 
+/* PORTAL REAL */
 .portal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: radial-gradient(circle, gold 0%, black 70%);
-  opacity: 0;
-  pointer-events: none;
-  transition: 1s;
+  position:fixed;
+  width:200px;
+  height:200px;
+  border-radius:50%;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%) scale(0);
+  background:radial-gradient(circle, gold 0%, transparent 70%);
+  box-shadow:0 0 80px gold, inset 0 0 40px gold;
 }
 
 .portal.ativo {
-  opacity: 1;
+  animation: portalAbrir 2s forwards;
+}
+
+@keyframes portalAbrir {
+  0% {transform:translate(-50%,-50%) scale(0);}
+  100% {transform:translate(-50%,-50%) scale(8);}
 }
 
 .mensagem {
-  display: none;
-  margin-top: 20px;
+  display:none;
 }
 </style>
 </head>
 
 <body>
 
-<audio autoplay loop>
-  <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_c3c9a4c0c7.mp3?filename=ethnic-ambient-110997.mp3" type="audio/mpeg">
+<canvas id="bg"></canvas>
+
+<audio id="musica" loop>
+<source src="ciganos.mp3" type="audio/mpeg">
 </audio>
 
 <div class="container">
 
 <h1>PORTAL DO BARALHO CIGANO</h1>
-
 <p>Acesso exclusivo para membros do Clube do Tarô</p>
 
-<input type="text" id="nome" placeholder="Seu nome completo">
-<br>
-<input type="email" id="email" placeholder="Seu melhor email">
+<input id="nome" placeholder="Seu nome completo">
+<input id="email" placeholder="Seu email">
 
-<br>
+<button class="botao-ouro" onclick="ativarPortal()">OURO / DIAMANTE / ANUAL</button>
 
-<button class="botao-ouro" onclick="entrarCurso()">
-SOU OURO / DIAMANTE / ANUAL — ENTRAR
-</button>
-
-<br>
-
-<a href="https://pay.kiwify.com.br/D5bCMEh" target="_blank">
-<button class="botao-pagamento">
-SOU BRONZE / PRATA — LIBERAR ACESSO
-</button>
+<a href="https://www.asaas.com/c/72mod50hzjnef58h" target="_blank">
+<button class="botao-pagamento">BRONZE / PRATA</button>
 </a>
 
-<div class="mensagem" id="mensagem">
-<h2>BEM VINDO AO CURSO DE BARALHO CIGANO!</h2>
-<p>Parabéns! Em poucos minutos você receberá no seu email o acesso à sua nova jornada nas cartas ciganas.</p>
+<div class="mensagem" id="msg">
+<h2>BEM VINDO AO CURSO DE BARALHO CIGANO</h2>
+<p>Sua jornada começa agora.</p>
 </div>
 
 </div>
@@ -131,30 +130,71 @@ SOU BRONZE / PRATA — LIBERAR ACESSO
 <div class="portal" id="portal"></div>
 
 <script>
-function entrarCurso(){
+
+// FUNDO PROFUNDO COM MOVIMENTO REAL
+let canvas = document.getElementById("bg");
+let ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let particles = [];
+
+for(let i=0;i<300;i++){
+  particles.push({
+    x: Math.random()*canvas.width,
+    y: Math.random()*canvas.height,
+    r: Math.random()*2,
+    speed: Math.random()*0.5
+  });
+}
+
+function animate(){
+  ctx.fillStyle="rgba(0,0,0,0.2)";
+  ctx.fillRect(0,0,canvas.width,canvas.height);
+
+  ctx.fillStyle="gold";
+
+  particles.forEach(p=>{
+    ctx.beginPath();
+    ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+    ctx.fill();
+
+    p.y += p.speed;
+
+    if(p.y > canvas.height){
+      p.y = 0;
+      p.x = Math.random()*canvas.width;
+    }
+  });
+
+  requestAnimationFrame(animate);
+}
+animate();
+
+// ATIVAÇÃO
+function ativarPortal(){
 
   let nome = document.getElementById("nome").value;
   let email = document.getElementById("email").value;
 
-  if(nome === "" || email === ""){
-    alert("Preencha nome e email");
+  if(!nome || !email){
+    alert("Preencha os dados");
     return;
   }
 
+  document.getElementById("musica").play();
+
   fetch("https://script.google.com/macros/s/AKfycbznKcdNZ6pji8ENBuQm5geoEFziLP5WWv5NeeX2OhNU3hUuKpqCaNfSClfzt8oDjqFp/exec", {
-    method: "POST",
-    body: JSON.stringify({
-      nome: nome,
-      email: email
-    })
+    method:"POST",
+    body:JSON.stringify({nome,email})
   });
 
-  let portal = document.getElementById("portal");
-  portal.classList.add("ativo");
+  document.getElementById("portal").classList.add("ativo");
 
   setTimeout(()=>{
-    document.getElementById("mensagem").style.display = "block";
-  }, 1500);
+    document.getElementById("msg").style.display="block";
+  },2000);
 }
 </script>
 
